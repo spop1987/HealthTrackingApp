@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using MyHealthNotebook.DataService.Data;
+using MyHealthNotebook.DataService.IConfiguration;
+using MyHealthNotebook.Entities.Translators;
 using MyHealthNoteBook.DataService.Data;
 
 
@@ -12,6 +17,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IToDtoTranslator, ToDtoTranslator>();
+builder.Services.AddScoped<IToEntityTranslator, ToEntityTranslator>();
+
+builder.Services.AddSwaggerGen(c => {
+    c.SwaggerDoc("v1", new OpenApiInfo{Title = "MyHealthNotebook.Api", Version = "v1"});
+});
+
+builder.Services.AddApiVersioning(opt => {
+    // Provide to the client the different Api versions that we have.
+    opt.ReportApiVersions = true;
+    // In case the version is not provide, the api provide the default version
+    opt.AssumeDefaultVersionWhenUnspecified = true;
+
+    opt.DefaultApiVersion = ApiVersion.Default;
+});
 
 var app = builder.Build();
 
