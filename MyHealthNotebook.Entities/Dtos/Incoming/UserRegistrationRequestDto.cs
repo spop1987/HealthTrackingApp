@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyHealthNotebook.Authentication.Models.DTO.Incoming
+namespace MyHealthNotebook.Entities.Dtos.Incoming
 {
-    public class UserRegistrationRequestDto
+    public class UserRegistrationRequestDto : IUserDto
     {
         [Required]
         public string FirstName { get; set; }

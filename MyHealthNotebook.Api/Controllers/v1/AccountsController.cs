@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyHealthNotebook.Authentication.Configuration;
-using MyHealthNotebook.Authentication.Models.DTO.Incoming;
-using MyHealthNotebook.Authentication.Models.DTO.Outgoing;
+using MyHealthNotebook.Entities.Dtos.Incoming;
+using MyHealthNotebook.Entities.Dtos.Outgoing;
 using MyHealthNotebook.DataService.IConfiguration;
 
 namespace MyHealthNotebook.Api.Controllers.v1
@@ -60,6 +60,11 @@ namespace MyHealthNotebook.Api.Controllers.v1
                     Succes = false,
                     Errors  = isCreated.Errors.Select(s => s.Description).ToList()
                 });
+            // adding user to database
+            var user = await _unitOfWork.ToEntityTranslator.ToUser(registrationDto, newUser.Id);
+            await _unitOfWork.Users.Add(user);
+            await _unitOfWork.CompleteAsync();
+                
             //create a jwt token
             var token = GenerateJwtToken(newUser);
 

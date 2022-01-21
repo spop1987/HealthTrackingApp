@@ -5,19 +5,20 @@ namespace MyHealthNotebook.Entities.Translators
 {
     public interface IToEntityTranslator
     {
-        Task<User> ToUser(UserDto userDto);
+        Task<User> ToUser(IUserDto userDto, string userId);
     }
     public class ToEntityTranslator : IToEntityTranslator
     {
-        public Task<User> ToUser(UserDto userDto)
+        public Task<User> ToUser(IUserDto userDto, string userId)
         {
             var user = new User();
+            user.IdentityId = string.IsNullOrWhiteSpace(userId) ? Guid.NewGuid() :  new Guid(userId);
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.Email = userDto.Email;
-            user.DateOfBirth = Convert.ToDateTime(userDto.DateOfBirth);
-            user.Phone = userDto.Phone;
-            user.Country = userDto.Country;
+            // user.DateOfBirth = Convert.ToDateTime(userDto.DateOfBirth);
+            // user.Phone = userDto.Phone;
+            // user.Country = userDto.Country;
             return Task.FromResult(user);
         }
     }

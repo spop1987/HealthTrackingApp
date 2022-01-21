@@ -15,10 +15,10 @@ namespace MyHealthNotebook.Entities.Translators
             var userDto = new UserDto();
             userDto.FirstName = user.FirstName;
             userDto.LastName = user.LastName;
-            userDto.DateOfBirth = user.DateOfBirth.ToString();
-            userDto.Phone = user.Phone;
             userDto.Email = user.Email;
-            userDto.Country = user.Country;
+            // userDto.DateOfBirth = user.DateOfBirth.ToString();
+            // userDto.Phone = user.Phone;
+            // userDto.Country = user.Country;
             return Task.FromResult<UserDto>(userDto);
         }
     }

@@ -1,4 +1,4 @@
-namespace MyHealthNotebook.Authentication.Models.DTO.Outgoing
+namespace MyHealthNotebook.Entities.Dtos.Outgoing
 {
     public class UserRegistrationResponse : AuthResult
     {
