@@ -8,6 +8,7 @@ namespace MyHealthNotebook.DataService.IConfiguration
     public interface IUnitOfWork
     {
          IUserRepository Users {get;}
+         IRefreshTokenRepository RefreshTokens {get;}
          IToDtoTranslator ToDtoTranslator {get; set;}
          IToEntityTranslator ToEntityTranslator {get; set;}
          Task CompleteAsync();

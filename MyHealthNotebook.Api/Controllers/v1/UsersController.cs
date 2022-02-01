@@ -28,7 +28,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> AddUser(UserDto userDto)
         {
-            var user = await _unitOfWork.ToEntityTranslator.ToUser(userDto, null);
+            var user = await _unitOfWork.ToEntityTranslator.ToUser(userDto, "");
             await _unitOfWork.Users.Add(user);
             await _unitOfWork.CompleteAsync();
             // return CreatedAtRoute("GetUser", new {id = user.Id}, user);

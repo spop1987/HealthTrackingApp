@@ -24,9 +24,12 @@ namespace MyHealthNotebook.DataService.Data
             ToDtoTranslator = new ToDtoTranslator();
             ToEntityTranslator = new ToEntityTranslator();
             Users = new UserRepository(_context, _logger);
+            RefreshTokens = new RefreshTokenRepository(_context, _logger);
         }
 
         public IUserRepository Users {get; private set;}
+
+        public IRefreshTokenRepository RefreshTokens {get; private set;}
 
         public async Task CompleteAsync()
         {

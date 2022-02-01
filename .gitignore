@@ -352,3 +352,5 @@ MigrationBackup/
 .vscode
 MyHealth.db
 appsettings.json
+MyHealth.db-shm
+MyHealth.db-wal

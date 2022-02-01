@@ -1,9 +1,7 @@
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyHealthNotebook.DataService.IRepository;
 using MyHealthNotebook.Entities.DbSet;
-using MyHealthNotebook.Entities.Dtos.Incoming;
 using MyHealthNoteBook.DataService.Data;
 
 namespace MyHealthNotebook.DataService.Repository

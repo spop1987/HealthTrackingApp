@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyHealthNotebook.DataService.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class AddingRefreshTokens : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +52,8 @@ namespace MyHealthNotebook.DataService.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    IdentityId = table.Column<Guid>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
@@ -114,8 +115,8 @@ namespace MyHealthNotebook.DataService.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
-                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -159,8 +160,8 @@ namespace MyHealthNotebook.DataService.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginProvider = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -168,6 +169,32 @@ namespace MyHealthNotebook.DataService.Migrations
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    Token = table.Column<string>(type: "TEXT", nullable: false),
+                    JwtId = table.Column<string>(type: "TEXT", nullable: false),
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    AddedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -210,6 +237,11 @@ namespace MyHealthNotebook.DataService.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -228,6 +260,9 @@ namespace MyHealthNotebook.DataService.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Users");

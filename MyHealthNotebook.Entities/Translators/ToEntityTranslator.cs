@@ -16,9 +16,9 @@ namespace MyHealthNotebook.Entities.Translators
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.Email = userDto.Email;
-            // user.DateOfBirth = Convert.ToDateTime(userDto.DateOfBirth);
-            // user.Phone = userDto.Phone;
-            // user.Country = userDto.Country;
+            user.DateOfBirth = DateTime.UtcNow;
+            user.Phone = "";
+            user.Country = "";
             return Task.FromResult(user);
         }
     }
