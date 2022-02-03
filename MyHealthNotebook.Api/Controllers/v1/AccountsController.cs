@@ -16,16 +16,14 @@ namespace MyHealthNotebook.Api.Controllers.v1
 {
     public class AccountsController : BaseController
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly JwtConfig _jwtConfig;
         public AccountsController(
             IUnitOfWork unitOfWork,
             UserManager<IdentityUser> userManager,
             TokenValidationParameters tokenValidationParameters,
-            IOptionsMonitor<JwtConfig> optionMonitor) : base(unitOfWork)
+            IOptionsMonitor<JwtConfig> optionMonitor) : base(unitOfWork, userManager)
         {
-            _userManager = userManager;
             _jwtConfig = optionMonitor.CurrentValue;
             _tokenValidationParameters = tokenValidationParameters;
         }
@@ -302,6 +300,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
             {
                 Subject = new ClaimsIdentity(new []{
                     new Claim("Id", user.Id),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email), // unique id
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // used by the refresh token

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyHealthNotebook.DataService.IConfiguration;
 using MyHealthNotebook.Entities.Dtos.Incoming;
@@ -9,7 +10,8 @@ namespace MyHealthNotebook.Api.Controllers.v1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsersController : BaseController
     {
-        public UsersController(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public UsersController(IUnitOfWork unitOfWork,
+                               UserManager<IdentityUser> userManager) : base(unitOfWork, userManager)
         {
         }
 

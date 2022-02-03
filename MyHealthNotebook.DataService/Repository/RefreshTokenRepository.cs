@@ -26,7 +26,7 @@ namespace MyHealthNotebook.DataService.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Repo} GetByRefreshToken method has generated an error", typeof(RefreshToken));
+                _logger.LogError(ex, "{Repo} GetByRefreshToken method has generated an error", typeof(UserRepository));
                 return new RefreshToken();
             }
         }
@@ -45,7 +45,7 @@ namespace MyHealthNotebook.DataService.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Repo} MarkRefreshTokenAsUsed method has generated an error", typeof(RefreshToken));
+                _logger.LogError(ex, "{Repo} MarkRefreshTokenAsUsed method has generated an error", typeof(UserRepository));
                 return false;
             }
         }
