@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyHealthNotebook.Configurations.Messages;
 using MyHealthNotebook.DataService.IConfiguration;
+using MyHealthNotebook.Entities.DbSet;
+using MyHealthNotebook.Entities.Dtos.Generic;
 using MyHealthNotebook.Entities.Dtos.Incoming;
 
 namespace MyHealthNotebook.Api.Controllers.v1
@@ -19,12 +22,24 @@ namespace MyHealthNotebook.Api.Controllers.v1
         public async Task<IActionResult> GetUsers()
         {
             var users = await _unitOfWork.Users.All();
+            var result = new Result<UserDto>();
             if(users == null)
-                return NotFound("There are not users");
+            {
+                result.Error = PopulateError(400,
+                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Generic.TypeBadRequest);
+                 return BadRequest(result);
+            }
             
             var listOfUsersDto = await _unitOfWork.TranslateListOfEntities(users);
-            
-            return Ok(listOfUsersDto);
+            var resultDtos = new PagedResult<UserDto>
+            {
+                Page = 1,
+                ResultPerPage = listOfUsersDto.Count(),
+                ResultCount = listOfUsersDto.Count(),
+                Content = listOfUsersDto,
+            };
+            return Ok(resultDtos);
         }
 
         [HttpPost]
@@ -42,11 +57,18 @@ namespace MyHealthNotebook.Api.Controllers.v1
         public async Task<IActionResult> GetUser(Guid id)
         {
             var user = await _unitOfWork.Users.GetById(id);
+            var result = new Result<UserDto>();
             if(user == null)
-                 return BadRequest("User not found");
+            {
+                result.Error = PopulateError(400,
+                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Generic.TypeBadRequest);
+                 return BadRequest(result);
+            }
 
             var userDto = await _unitOfWork.ToDtoTranslator.ToUserDtoTranslator(user); 
-            return Ok(userDto);
+            result.Content = userDto;
+            return Ok(result);
         }
 
     }

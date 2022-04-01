@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyHealthNotebook.DataService\MyHealthNotebook.DataService.csproj" />
     <ProjectReference Include="..\MyHealthNotebook.Authentication\MyHealthNotebook.Authentication.csproj" />
+    <ProjectReference Include="..\MyHealthNotebook.Configurations\MyHealthNotebook.Configurations.csproj" />
   </ItemGroup>
 
 </Project>

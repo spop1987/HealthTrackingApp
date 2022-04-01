@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyHealthNotebook.Entities\MyHealthNotebook.Entities.csproj" />
+    <ProjectReference Include="..\MyHealthNotebook.Configurations\MyHealthNotebook.Configurations.csproj" />
   </ItemGroup>
 
 </Project>

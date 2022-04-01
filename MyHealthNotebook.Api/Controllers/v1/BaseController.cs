@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyHealthNotebook.DataService.IConfiguration;
+using MyHealthNotebook.Entities.Dtos.Errors;
 
 namespace MyHealthNotebook.Api.Controllers.v1
 {
@@ -15,6 +16,16 @@ namespace MyHealthNotebook.Api.Controllers.v1
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+        }
+
+        internal Error PopulateError(int code, string message, string type)
+        {
+            return new Error()
+            {
+                Code = code,
+                Message = message,
+                Type = type
+            };
         }
     }
 }

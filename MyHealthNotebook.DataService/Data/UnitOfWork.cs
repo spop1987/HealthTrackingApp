@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyHealthNotebook.DataService.IConfiguration;
 using MyHealthNotebook.DataService.IRepository;
@@ -6,6 +7,10 @@ using MyHealthNotebook.Entities.DbSet;
 using MyHealthNotebook.Entities.Dtos.Incoming;
 using MyHealthNotebook.Entities.Translators;
 using MyHealthNoteBook.DataService.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using MyHealthNotebook.Entities.Dtos.Generic;
+using MyHealthNotebook.Entities.Dtos.Errors;
+using MyHealthNotebook.Configurations.Messages;
 
 namespace MyHealthNotebook.DataService.Data
 {
@@ -36,14 +41,14 @@ namespace MyHealthNotebook.DataService.Data
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<UserDto>> TranslateListOfEntities(IEnumerable<User> users)
+        public async Task<List<UserDto>> TranslateListOfEntities(IEnumerable<User> users)
         {
             List<UserDto> listOfUsersDto = new List<UserDto>();
             users.ToList().ForEach(u => {
                 var udto =  ToDtoTranslator.ToUserDtoTranslator(u);
                 listOfUsersDto.Add(udto.Result);
             });
-            return Task.FromResult(listOfUsersDto);
+            return await Task.FromResult(listOfUsersDto);
         }
 
         public void Dispose()

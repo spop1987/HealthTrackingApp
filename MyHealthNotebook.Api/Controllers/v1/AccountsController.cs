@@ -42,7 +42,6 @@ namespace MyHealthNotebook.Api.Controllers.v1
                 });
             }
                 
-            
             // check if the email already exist
             var userExist = await _userManager.FindByEmailAsync(registrationDto.Email);
             if(userExist != null)
@@ -230,7 +229,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
                     };
                 }
 
-                var jti = principal.Claims.SingleOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+                var jti = principal?.Claims?.SingleOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
                 
                 if(refreshTokenExist.JwtId != jti){
                     return new AuthResult(){
