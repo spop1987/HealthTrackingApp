@@ -26,7 +26,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
             if(users == null)
             {
                 result.Error = PopulateError(400,
-                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Users.UserNotFound,
                     ErrorMessages.Generic.TypeBadRequest);
                  return BadRequest(result);
             }
@@ -48,7 +48,6 @@ namespace MyHealthNotebook.Api.Controllers.v1
             var user = await _unitOfWork.ToEntityTranslator.ToUser(userDto, "");
             await _unitOfWork.Users.Add(user);
             await _unitOfWork.CompleteAsync();
-            // return CreatedAtRoute("GetUser", new {id = user.Id}, user);
             return Ok(user.Id);
         }
         
@@ -61,8 +60,8 @@ namespace MyHealthNotebook.Api.Controllers.v1
             if(user == null)
             {
                 result.Error = PopulateError(400,
-                    ErrorMessages.Profile.UserNotFound,
-                    ErrorMessages.Generic.TypeBadRequest);
+                    ErrorMessages.Users.UserNotFound,
+                    ErrorMessages.Generic.ObjectNotFound);
                  return BadRequest(result);
             }
 

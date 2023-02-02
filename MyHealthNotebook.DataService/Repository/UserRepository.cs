@@ -59,12 +59,15 @@ namespace MyHealthNotebook.DataService.Repository
                 var existingUser = await dbSet.Where(u => u.Status == 1 && u.IdentityId == identityId)
                                             .FirstOrDefaultAsync();
 
-                return existingUser;
+                if(existingUser != null) 
+                    return existingUser;
+
+                return await Task.FromResult<User>(null);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "{Repo} GetByIdentityId method has generated an error", typeof(UserRepository));
-                return null;
+                return await Task.FromResult<User>(null);
             }
         }
     }

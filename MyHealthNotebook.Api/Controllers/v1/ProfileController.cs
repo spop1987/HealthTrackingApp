@@ -26,7 +26,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
             if(loggerInUser == null) 
             {
                 result.Error = PopulateError(400,
-                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Users.UserNotFound,
                     ErrorMessages.Generic.TypeBadRequest);
                 return BadRequest(result);
             }
@@ -64,7 +64,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
             {
                 result.Error = PopulateError(
                     400,
-                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Users.UserNotFound,
                     ErrorMessages.Generic.TypeBadRequest);
                 return BadRequest(result);
             } 
@@ -77,7 +77,7 @@ namespace MyHealthNotebook.Api.Controllers.v1
             {
                 result.Error = PopulateError(
                     400,
-                    ErrorMessages.Profile.UserNotFound,
+                    ErrorMessages.Users.UserNotFound,
                     ErrorMessages.Generic.TypeBadRequest);
                 return BadRequest(result);
             }
